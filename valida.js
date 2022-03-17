@@ -28,6 +28,13 @@ Object.defineProperty(this, "cpf_sem_ultimos_digitos", {
 });
 }
 ValidaCpf.prototype.validar = function () {
+
+if(this.cpf === undefined) return false;
+
+if(this.cpfLimpo.length !== 11) return false;
+
+if(this.isSequencia()) return false;
+
 let digitoum = this.digito(10);
 let digitodois = this.digito(11);
 console.log(digitoum,digitodois);
@@ -35,7 +42,10 @@ let FormadoCpf = this.cpf_sem_ultimos_digitos.concat(digitoum,digitodois);
 console.log(FormadoCpf);
 return FormadoCpf === this.cpf;
 }
-
+ValidaCpf.prototype.isSequencia = function () {
+const sequencia = this.cpfLimpo[0].repeat(this.cpfLimpo.length);
+return sequencia === this.cpfLimpo;
+}
 ValidaCpf.prototype.digito = function (valor) {
 
 let soma = Array.from(this.cpfLimpo).reduce((acumulador, item) => {
@@ -49,5 +59,5 @@ return acumulador;
 let encontrarDigito = 11 - (soma % 11);
 return encontrarDigito > 9 ? "0" : encontrarDigito.toString();
 }
-var cpfclasse = new ValidaCpf("483.270.518.06");
+var cpfclasse = new ValidaCpf("483.270.518-06");
 console.log(cpfclasse.validar());
